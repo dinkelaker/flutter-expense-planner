@@ -80,7 +80,23 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Column(
-            children: transactions.map((tx) => Card(child: Text(tx.title))).toList(),
+            children: transactions.map((tx) {
+              return Row(
+                children: <Widget>[
+                  Container(
+                    child: Card(
+                      child: Text(tx.amount.toString())
+                    ),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      Text(tx.title),
+                      Text(tx.date.toString()),
+                    ]
+                  ),
+                ],
+              );
+            }).toList(),
           ),
         ],
       ),
