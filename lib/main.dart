@@ -90,16 +90,23 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.black,
+                        color: Colors.purple[500],
                         width: 2,
                       ),
                     ),
                     child: Card(
-                      child: Text(tx.amount.toString()),
+                      child: Text(
+                        tx.amount.toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.purple,
+                        ),
+                      ),
                     ),
                   ),
                   Column(children: <Widget>[
-                    Text(tx.title),
+                    Text(tx.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                     Text(tx.date.toString()),
                   ]),
                 ],
