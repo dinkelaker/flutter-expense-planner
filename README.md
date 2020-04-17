@@ -1,6 +1,6 @@
 # expense_planner
 
-A new Flutter project.
+A new Flutter project to document and calculate expenses.
 
 ## Getting Started
 
