@@ -1,3 +1,4 @@
+import 'package:expense_planner/transaction.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -44,18 +45,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  final List<Transaction> transactions = [
+    Transaction(
+        id: 't1', title: 'New Shoes', amount: 69.99, date: DateTime.now()),
+    Transaction(
+        id: 't2',
+        title: 'Weekly Groceries',
+        amount: 16.53,
+        date: DateTime.now()),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -71,22 +69,21 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: 
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children:<Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text('CHART!'),
-              ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            child: Card(
+              color: Colors.blue,
+              child: Text('CHART!'),
             ),
-            Card(color: Colors.blue,
-                child: Text('Edit!'),
-            ),
-          ],
-        ),  
+          ),
+          Column(
+            children: transactions.map((tx) => Card(child: Text(tx.title))).toList(),
+          ),
+        ],
+      ),
     );
   }
 }
