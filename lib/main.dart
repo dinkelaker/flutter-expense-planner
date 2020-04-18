@@ -56,6 +56,11 @@ class _MyHomePageState extends State<MyHomePage> {
         date: DateTime.now()),
   ];
 
+  String inputTitle;
+  String inputAmount;
+
+  var _nextId = 3;
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -84,61 +89,70 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Container(
                   padding: EdgeInsets.all(10),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Title'),
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        TextField(
+                          decoration: InputDecoration(labelText: 'Title'),
+                          onChanged: (val) => inputTitle = val,
+                        ),
+                        TextField(
+                          decoration: InputDecoration(labelText: 'Amount'),
+                          onChanged: (val) => inputAmount = val,
+                        ),
+                        FlatButton(
+                          child: Text('Add Transaction'),
+                          textColor: Colors.blue,
+                          onPressed: _addTransaction,
+                        )
+                      ]))),
+          Column(
+            children: transactions.map((tx) {
+              return Row(
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 15,
                     ),
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Amount'),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.purple[50],
+                        width: 2,
+                      ),
                     ),
-                    FlatButton(
-                        child: Text(
-                      'Add Transaction'),
-                      textColor: Colors.blue,
-                     onPressed: _addTransaction,)
-                                       ]))),
-                               Column(
-                                 children: transactions.map((tx) {
-                                   return Row(
-                                     children: <Widget>[
-                                       Container(
-                                         margin: EdgeInsets.symmetric(
-                                           vertical: 10,
-                                           horizontal: 15,
-                                         ),
-                                         decoration: BoxDecoration(
-                                           border: Border.all(
-                                             color: Colors.purple[50],
-                                             width: 2,
-                                           ),
-                                         ),
-                                         child: Card(
-                                           child: Text(
-                                             '\$${tx.amount}',
-                                             style: TextStyle(
-                                               fontWeight: FontWeight.bold,
-                                               fontSize: 20,
-                                               color: Colors.purple,
-                                             ),
-                                           ),
-                                         ),
-                                       ),
-                                       Column(children: <Widget>[
-                                         Text(tx.title,
-                                             style: TextStyle(
-                                                 fontWeight: FontWeight.bold, fontSize: 16)),
-                                         Text(DateFormat('yyyy-MM-dd').format(tx.date)),
-                                       ]),
-                                     ],
-                                   );
-                                 }).toList(),
-                               ),
-                             ],
-                           ),
-                         );
-                       }
-                     
-                       void _addTransaction() {
+                    child: Card(
+                      child: Text(
+                        '\$${tx.amount}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.purple,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Column(children: <Widget>[
+                    Text(tx.title,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16)),
+                    Text(DateFormat('yyyy-MM-dd').format(tx.date)),
+                  ]),
+                ],
+              );
+            }).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _addTransaction() {
+    var transaction = Transaction(
+        id: 't${_nextId++}',
+        title: inputTitle,
+        amount: double.parse(inputAmount),
+        date: DateTime.now());
+    print('New Transacion: ${transaction.title}');
+    transactions.add(transaction);
   }
 }
