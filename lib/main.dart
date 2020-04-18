@@ -56,8 +56,10 @@ class _MyHomePageState extends State<MyHomePage> {
         date: DateTime.now()),
   ];
 
-  String inputTitle;
-  String inputAmount;
+  // String inputTitle;
+  // String inputAmount;
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   var _nextId = 3;
 
@@ -93,11 +95,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: <Widget>[
                         TextField(
                           decoration: InputDecoration(labelText: 'Title'),
-                          onChanged: (val) => inputTitle = val,
+                          controller: titleController,
                         ),
                         TextField(
                           decoration: InputDecoration(labelText: 'Amount'),
-                          onChanged: (val) => inputAmount = val,
+                          controller: amountController,
                         ),
                         FlatButton(
                           child: Text('Add Transaction'),
@@ -149,8 +151,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _addTransaction() {
     var transaction = Transaction(
         id: 't${_nextId++}',
-        title: inputTitle,
-        amount: double.parse(inputAmount),
+        title: titleController.text,
+        amount: double.parse(amountController.text),
         date: DateTime.now());
     print('New Transacion: ${transaction.title}');
     transactions.add(transaction);
