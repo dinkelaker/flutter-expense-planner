@@ -27,14 +27,11 @@ class _UserTransactionsState extends State<UserTransactions> {
   void _addTransaction(String title, double amount) {
     var nextId = _nextId;
     var transaction = Transaction(
-        id: 't${nextId++}',
-        title : title,
-        amount : amount,
-        date: DateTime.now());
+        id: 't${nextId++}', title: title, amount: amount, date: DateTime.now());
     print('New Transacion: ${transaction.title}');
 
     setState(() {
-    _transactions.add(transaction);
+      _transactions.add(transaction);
     });
   }
 
@@ -47,5 +44,4 @@ class _UserTransactionsState extends State<UserTransactions> {
       ],
     );
   }
-
 }
