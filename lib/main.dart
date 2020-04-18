@@ -1,5 +1,6 @@
 import 'package:expense_planner/transaction.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
@@ -70,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
             width: double.infinity,
@@ -79,42 +80,65 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('CHART!'),
             ),
           ),
-          Column(
-            children: transactions.map((tx) {
-              return Row(
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 15,
+          Card(
+              child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Title'),
                     ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.purple[500],
-                        width: 2,
-                      ),
+                    TextField(
+                      decoration: InputDecoration(labelText: 'Amount'),
                     ),
-                    child: Card(
-                      child: Text(
-                        tx.amount.toString(),
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.purple,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Column(children: <Widget>[
-                    Text(tx.title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                    Text(tx.date.toString()),
-                  ]),
-                ],
-              );
-            }).toList(),
-          ),
-        ],
-      ),
-    );
+                    FlatButton(
+                        child: Text(
+                      'Add Transaction'),
+                      textColor: Colors.blue,
+                     onPressed: _addTransaction,)
+                                       ]))),
+                               Column(
+                                 children: transactions.map((tx) {
+                                   return Row(
+                                     children: <Widget>[
+                                       Container(
+                                         margin: EdgeInsets.symmetric(
+                                           vertical: 10,
+                                           horizontal: 15,
+                                         ),
+                                         decoration: BoxDecoration(
+                                           border: Border.all(
+                                             color: Colors.purple[50],
+                                             width: 2,
+                                           ),
+                                         ),
+                                         child: Card(
+                                           child: Text(
+                                             '\$${tx.amount}',
+                                             style: TextStyle(
+                                               fontWeight: FontWeight.bold,
+                                               fontSize: 20,
+                                               color: Colors.purple,
+                                             ),
+                                           ),
+                                         ),
+                                       ),
+                                       Column(children: <Widget>[
+                                         Text(tx.title,
+                                             style: TextStyle(
+                                                 fontWeight: FontWeight.bold, fontSize: 16)),
+                                         Text(DateFormat('yyyy-MM-dd').format(tx.date)),
+                                       ]),
+                                     ],
+                                   );
+                                 }).toList(),
+                               ),
+                             ],
+                           ),
+                         );
+                       }
+                     
+                       void _addTransaction() {
   }
 }
