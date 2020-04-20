@@ -66,14 +66,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
   var _nextId = 1;
 
-  void _addTransaction(String title, double amount) {
-    var nextId = _nextId;
+  void _addTransaction(String title, double amount, DateTime date) {
     var transaction = Transaction(
-        id: 't${nextId++}', title: title, amount: amount, date: DateTime.now());
-    print('New Transacion: ${transaction.title}');
+        id: 't${_nextId++}', title: title, amount: amount, date: date != null ? date : DateTime.now());
+    print('New Transacion: id=${transaction.id} title=${transaction.title}, amount=${transaction.amount}');
 
     setState(() {
       _transactions.add(transaction);
+    });
+  }
+
+  void _deleteTransaction(String id) {
+      _transactions.removeWhere((tx) => tx.id == id);
+    setState(() {
     });
   }
 
@@ -122,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Chart(_recentTransactions),
               ),
             ),
-            UserTransactions(_transactions)
+            UserTransactions(_transactions, _deleteTransaction)
           ],
         ),
       ),
