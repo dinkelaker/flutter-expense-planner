@@ -1,46 +1,29 @@
-import 'package:expense_planner/widget/new_transaction.dart';
-import 'package:expense_planner/widget/transaction_list.dart';
 import 'package:flutter/material.dart';
 
+import './transaction_list.dart';
 import '../model/transaction.dart';
 
 class UserTransactions extends StatefulWidget {
+  final List<Transaction> transactions;
+
+  UserTransactions(this.transactions);
+
   @override
   State<StatefulWidget> createState() {
-    return _UserTransactionsState();
+    return _UserTransactionsState(transactions);
   }
 }
 
 class _UserTransactionsState extends State<UserTransactions> {
-  final List<Transaction> _transactions = [
-    Transaction(
-        id: 't1', title: 'New Shoes', amount: 69.99, date: DateTime.now()),
-    Transaction(
-        id: 't2',
-        title: 'Weekly Groceries',
-        amount: 16.53,
-        date: DateTime.now()),
-  ];
+  final List<Transaction> transactions;
 
-  var _nextId = 3;
-
-  void _addTransaction(String title, double amount) {
-    var nextId = _nextId;
-    var transaction = Transaction(
-        id: 't${nextId++}', title: title, amount: amount, date: DateTime.now());
-    print('New Transacion: ${transaction.title}');
-
-    setState(() {
-      _transactions.add(transaction);
-    });
-  }
+  _UserTransactionsState(this.transactions);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        NewTransaction(_addTransaction),
-        TransactionList(_transactions),
+        TransactionList(transactions),
       ],
     );
   }
