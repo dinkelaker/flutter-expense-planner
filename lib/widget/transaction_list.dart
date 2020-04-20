@@ -30,19 +30,22 @@ class TransactionList extends StatelessWidget {
                   ),
                   child: Card(
                     child: Text(
-                      '\$${NumberFormat("##0.00", "en_US").format(transactions[index].amount)}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Theme.of(context).primaryColorDark,
-                      ),
-                    ),
+                        '\$${NumberFormat("##0.00", "en_US").format(transactions[index].amount)}',
+                        style: Theme.of(context).textTheme.title.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).primaryColorDark,
+                            )),
                   ),
                 ),
                 Column(children: <Widget>[
-                  Text(transactions[index].title,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                  Text(
+                    transactions[index].title,
+                    style:
+                          Theme.of(context).textTheme.title.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                  ),
                   Text(DateFormat('yyyy-MM-dd')
                       .format(transactions[index].date)),
                 ]),

@@ -17,8 +17,18 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.lightGreen,
           accentColor: Colors.green,
           fontFamily: 'OpenSans',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                  title: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+              )),
           appBarTheme: AppBarTheme(
-            textTheme: ThemeData.light().textTheme.copyWith(title: TextStyle(fontFamily: 'OpenSans', fontSize: 20,),))),
+              textTheme: ThemeData.light().textTheme.copyWith(
+                    title: TextStyle(
+                        fontFamily: 'OpenSans',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ))),
       home: MyHomePage(title: 'Expense Planner'),
     );
   }
