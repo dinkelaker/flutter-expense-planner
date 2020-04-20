@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 
 import '../model/transaction.dart';
 
+import './chartbar.dart';
+
 class Chart extends StatelessWidget {
   final List<Transaction> recentTransactions;
 
@@ -27,15 +29,35 @@ class Chart extends StatelessWidget {
     });
   }
 
+  double get maxSpending {
+    return groupedTransactionValues.fold(0.0, (sum, item) {
+      return sum + item['amount'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
-        elevation: 6,
-        margin: EdgeInsets.all(20),
+      elevation: 6,
+      margin: EdgeInsets.all(20),
+      child: Padding(
+        padding: EdgeInsets.all(10),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: groupedTransactionValues.map((data) {
-            return Text('${data['date']}: ${data['amount']}');
+            return Flexible(
+              fit: FlexFit.tight,
+              child: ChartBar(
+                data['date'],
+                data['amount'],
+                maxSpending == 0.0
+                    ? 0.0
+                    : (data['amount'] as double) / maxSpending,
+              ),
+            );
           }).toList(),
-        ));
+        ),
+      ),
+    );
   }
 }
