@@ -26,7 +26,7 @@ class Chart extends StatelessWidget {
       print('${DateFormat.E().format(weekDay)}: $totalSum');
 
       return {'date': DateFormat.E().format(weekDay), 'amount': totalSum};
-    });
+    }).reversed.toList();
   }
 
   double get maxSpending {
