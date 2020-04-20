@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import './widget/new_transaction.dart';
 import './widget/user_transactions.dart';
+import './widget/chart.dart';
 
 import './model/transaction.dart';
 
@@ -63,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     //     date: DateTime.now()),
   ];
 
-  var _nextId = 3;
+  var _nextId = 1;
 
   void _addTransaction(String title, double amount) {
     var nextId = _nextId;
@@ -82,6 +83,12 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (bCtxt) {
           return NewTransaction(_addTransaction);
         });
+  }
+
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
   }
 
   @override
@@ -112,7 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: double.infinity,
               child: Card(
                 color: Colors.blue,
-                child: Text('CHART!'),
+                child: Chart(_recentTransactions),
               ),
             ),
             UserTransactions(_transactions)
