@@ -14,11 +14,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Expense Planner',
       theme: ThemeData(
-        primarySwatch: Colors.lightGreen,
-        accentColor: Colors.green,
-        fontFamily: 'OpenSans',
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+          primarySwatch: Colors.lightGreen,
+          accentColor: Colors.green,
+          fontFamily: 'OpenSans',
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(title: TextStyle(fontFamily: 'OpenSans', fontSize: 20,),))),
+      home: MyHomePage(title: 'Expense Planner'),
     );
   }
 }
@@ -66,9 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _startAddNewTransaction(BuildContext ctxt) {
-    showModalBottomSheet(context: ctxt, builder: (bCtxt) {
-      return NewTransaction(_addTransaction);
-    });
+    showModalBottomSheet(
+        context: ctxt,
+        builder: (bCtxt) {
+          return NewTransaction(_addTransaction);
+        });
   }
 
   @override
