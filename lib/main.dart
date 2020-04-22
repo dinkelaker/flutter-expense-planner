@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+//import 'package:flutter/services.dart';
 
 import './widget/new_transaction.dart';
 import './widget/user_transactions.dart';
@@ -7,13 +7,13 @@ import './widget/chart.dart';
 
 import './model/transaction.dart';
 
-void main() { 
-  WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown
-  ]);
-  runApp(MyApp()); 
+void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown
+  // ]);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -107,8 +107,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
+  var _showChart = true;
+
   @override
   Widget build(BuildContext context) {
+    var isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     var appBar = AppBar(
       // Here we take the value from the MyHomePage object that was created by
       // the App.build method, and use it to set our appbar title.
@@ -125,24 +130,45 @@ class _MyHomePageState extends State<MyHomePage> {
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top);
 
+    var chartSwitchWidget = Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text('Show Chart'),
+        Switch(
+          value: _showChart,
+          onChanged: (val) {
+            setState(() {
+              _showChart = val;
+            });
+          },
+        )
+      ],
+    );
+
+    var createResponsiveChartWidget = (heightRatio) => Container(
+      height: heightWorkArea * heightRatio,
+      width: double.infinity,
+      child: Card(
+        color: Theme.of(context).primaryColorDark,
+        child: Chart(_recentTransactions),
+      ),
+    );
+
+    var txListWidget = Container(
+      height: heightWorkArea * 0.6,
+      child: UserTransactions(_transactions, _deleteTransaction),
+    );
+
     var scaffold = Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
-              height: heightWorkArea * 0.4,
-              width: double.infinity,
-              child: Card(
-                color: Theme.of(context).primaryColorDark,
-                child: Chart(_recentTransactions),
-              ),
-            ),
-            Container(
-              height: heightWorkArea * 0.6,
-              child: UserTransactions(_transactions, _deleteTransaction),
-            )
+            if (isLandscape) chartSwitchWidget,
+            if (!isLandscape) createResponsiveChartWidget(0.3),
+            if (!isLandscape) txListWidget,
+            if (isLandscape) _showChart ? createResponsiveChartWidget(0.6) : txListWidget,
           ],
         ),
       ),
@@ -152,6 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () => _startAddNewTransaction(context),
       ),
     );
+
     return scaffold;
   }
 }
