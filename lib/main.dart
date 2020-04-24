@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 //import 'package:flutter/services.dart';
 
 import './widget/new_transaction.dart';
-import './widget/user_transactions.dart';
 import './widget/chart.dart';
 
 import './model/transaction.dart';
+import 'widget/transaction_list.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -156,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     var txListWidget = Container(
       height: heightWorkArea * 0.6,
-      child: UserTransactions(_transactions, _deleteTransaction),
+      child: TransactionList(_transactions, _deleteTransaction),
     );
 
     var scaffold = Scaffold(
