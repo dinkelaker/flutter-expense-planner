@@ -111,10 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    var isLandscape =
+    final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
-    var appBar = AppBar(
+    final appBar = AppBar(
       // Here we take the value from the MyHomePage object that was created by
       // the App.build method, and use it to set our appbar title.
       title: Text(widget.title),
@@ -126,11 +126,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
-    var heightWorkArea = (MediaQuery.of(context).size.height -
+    final heightWorkArea = (MediaQuery.of(context).size.height -
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top);
 
-    var chartSwitchWidget = Row(
+    final chartSwitchWidget = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text('Show Chart'),
@@ -145,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
-    var createResponsiveChartWidget = (heightRatio) => Container(
+    final createResponsiveChartWidget = (heightRatio) => Container(
       height: heightWorkArea * heightRatio,
       width: double.infinity,
       child: Card(
@@ -154,12 +154,12 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
 
-    var txListWidget = Container(
+    final txListWidget = Container(
       height: heightWorkArea * 0.6,
       child: TransactionList(_transactions, _deleteTransaction),
     );
 
-    var scaffold = Scaffold(
+    final scaffold = Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
