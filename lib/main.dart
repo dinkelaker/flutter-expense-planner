@@ -114,50 +114,11 @@ class _MyHomePageState extends State<MyHomePage> {
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
-    final appBar = AppBar(
-      // Here we take the value from the MyHomePage object that was created by
-      // the App.build method, and use it to set our appbar title.
-      title: Text(widget.title),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () => _startAddNewTransaction(context),
-        )
-      ],
-    );
+    final appBar = _buildAppBar(context);
 
     final heightWorkArea = (MediaQuery.of(context).size.height -
         appBar.preferredSize.height -
         MediaQuery.of(context).padding.top);
-
-    final chartSwitchWidget = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text('Show Chart'),
-        Switch(
-          value: _showChart,
-          onChanged: (val) {
-            setState(() {
-              _showChart = val;
-            });
-          },
-        )
-      ],
-    );
-
-    final createResponsiveChartWidget = (heightRatio) => Container(
-      height: heightWorkArea * heightRatio,
-      width: double.infinity,
-      child: Card(
-        color: Theme.of(context).primaryColorDark,
-        child: Chart(_recentTransactions),
-      ),
-    );
-
-    final txListWidget = Container(
-      height: heightWorkArea * 0.6,
-      child: TransactionList(_transactions, _deleteTransaction),
-    );
 
     final scaffold = Scaffold(
       appBar: appBar,
@@ -165,10 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            if (isLandscape) chartSwitchWidget,
-            if (!isLandscape) createResponsiveChartWidget(0.3),
-            if (!isLandscape) txListWidget,
-            if (isLandscape) _showChart ? createResponsiveChartWidget(0.6) : txListWidget,
+            if (!isLandscape) ..._buildPortraitContent(heightWorkArea),
+            if (isLandscape) ..._buildLandscapeContent(heightWorkArea)
           ],
         ),
       ),
@@ -180,5 +139,68 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     return scaffold;
+  }
+
+  List<Widget> _buildPortraitContent(double heightWorkArea) {
+    return [
+      _buildResponsiveChartWidget(heightWorkArea * 0.3),
+      _buildTransactionList(heightWorkArea * 0.6),
+    ];
+  }
+
+  List<Widget> _buildLandscapeContent(double heightWorkArea) {
+    return [
+      _buildChartSwitchWidgets(),
+      _showChart 
+        ? _buildResponsiveChartWidget(heightWorkArea * 0.6) 
+        : _buildTransactionList(heightWorkArea * 0.6),
+    ];
+  }
+
+  Container _buildTransactionList(double height) {
+    return Container(
+    height: height,
+    child: TransactionList(_transactions, _deleteTransaction),
+  );
+  }
+
+  Row _buildChartSwitchWidgets() {
+    return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+      Text('Show Chart'),
+      Switch(
+        value: _showChart,
+        onChanged: (val) {
+          setState(() {
+            _showChart = val;
+          });
+        },
+      )
+    ],
+  );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      title: Text(widget.title),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context),
+        )
+      ],
+    );
+  }
+
+  Container _buildResponsiveChartWidget(double height) {
+    return Container(
+      height: height,
+      width: double.infinity,
+      child: Card(
+        color: Theme.of(context).primaryColorDark,
+        child: Chart(_recentTransactions),
+      ),
+    );
   }
 }
